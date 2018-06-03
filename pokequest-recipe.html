@@ -1,0 +1,629 @@
+<html>
+
+<head>
+    <style type="text/css">
+        #header {
+            width: 100%;
+        }
+
+        #item_select_area {
+            width: 50%;
+            float: left;
+        }
+
+        #output {
+            padding: 0 15px;
+            width: 40%;
+            float: left;
+        }
+
+        fieldset {
+            margin: 0 15px;
+            padding: 4px 5px;
+            border: solid 5px #ffc06e;
+        }
+
+        legend {
+            margin: 0 5px;
+            color: #ff9100;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: small;
+            font-weight: bold;
+        }
+
+        label span {
+            display: inline-block;
+            width: 17%;
+            padding: 5px;
+            margin: 0;
+            color: #232323;
+            background: #fff8e8;
+            border-left: solid 2px #ffc06e;
+            border-bottom: solid 2px #ffc06e;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: small;
+        }
+
+        label span:hover {
+            background: #ffe29e;
+        }
+
+        input[type="radio"] {
+            display: none;
+        }
+
+        label input[type="radio"]:checked+span {
+            background: #ffc06e;
+        }
+
+        input[type="button"] {
+            outline: 0;
+            width: 15%;
+            padding: 5px;
+            margin: 0;
+            color: #232323;
+            background: #e8ebff;
+            border-left: solid 2px #6e78ff;
+            border-bottom: solid 2px #6e78ff;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: small;
+        }
+
+        input[type="button"]:hover {
+            background: #d5dbff;
+        }
+
+        input[type="button"]:active {
+            background: #6e78ff;
+        }
+
+        .recipe {
+            padding: 5px;
+            background: #eeeeee;
+            border-bottom: solid 2px #dddddd;
+            border-left: solid 5px #dddddd;
+            color: #888888;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: small;
+        }
+
+        .recipe_header {
+            padding: 0 5px;
+            border-bottom: solid 4px #dddddd;
+            border-left: solid 5px #dddddd;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: small;
+            background: #ffffff;
+            color: #232323;
+        }
+
+        .able {
+            background: #ffffff;
+            color: #232323;
+            border-left: solid 5px #55dd44;
+        }
+
+        .recipeid {
+            margin: 0;
+            padding: 0 5px;
+            display: inline-block;
+            vertical-align:middle;
+            width: 20%;
+        }
+
+        .recipeexp {
+            margin: 0;
+            padding: 0 5px;
+            display: inline-block;
+            width: 35%;
+            border-right: solid 2px #dddddd;
+            border-left: solid 2px #dddddd;
+            vertical-align:middle;
+        }
+
+        .recipepoke {
+            margin: 0;
+            padding: 0 5px;
+            display: inline-block;
+            width: 25%;
+            vertical-align:middle;
+        }
+    </style>
+    <script type="text/javascript">
+        var non = [0, 0, 0, 0];
+        var any = [1, 1, 1, 1];
+        var r = [1, 0, 0, 0];
+        var b = [0, 1, 0, 0];
+        var y = [0, 0, 1, 0];
+        var g = [0, 0, 0, 1];
+        var soft = [1, 0, 0, 0];
+        var hard = [0, 1, 0, 0];
+        var kinoko = [1, 0, 0, 0];
+        var amaimono = [0, 1, 0, 0];
+        var shokubutu = [0, 0, 1, 0];
+        var koubutu = [0, 0, 0, 1];
+
+        var dummy = [non, non, non];
+        var item0 = [r, soft, kinoko];
+        var item1 = [b, soft, amaimono];
+        var item2 = [y, hard, shokubutu];
+        var item3 = [g, hard, koubutu];
+        var item4 = [any, any, any];
+        var item5 = [r, soft, shokubutu];
+        var item6 = [b, hard, koubutu];
+        var item7 = [y, soft, amaimono];
+        var item8 = [g, soft, kinoko];
+        var item9 = [any, any, any];
+
+        var recipe1 = [
+            [0, 0, 0, 0],
+            [0, 0, 0, 0],
+            [0, 0, 0, 0]
+        ];
+        recipe1.id = "recipe1";
+        recipe1.elem = "おこのみの材料をどれでも";
+        recipe1.prop = "カクコロ島のポケモン";
+        var recipe2 = [
+            [4, 0, 0, 0],//赤色たっぷり
+            [0, 0, 0, 0],
+            [0, 0, 0, 0]
+        ];
+        recipe2.id = "recipe2";
+        recipe2.elem = "赤色　たっぷり";
+        recipe2.prop = "赤色っぽいポケモン";
+        var recipe3 = [
+            [0, 4, 0, 0],//青色たっぷり
+            [0, 0, 0, 0],
+            [0, 0, 0, 0]
+        ];
+        recipe3.id = "recipe3";
+        recipe3.elem = "青色　たっぷり";
+        recipe3.prop = "青色っぽいポケモン";
+        var recipe4 = [
+            [0, 0, 4, 0],//黄色たっぷり
+            [0, 0, 0, 0],
+            [0, 0, 0, 0]
+        ];
+        recipe4.id = "recipe4";
+        recipe4.elem = "黄色　たっぷり";
+        recipe4.prop = "黄色っぽいポケモン";
+        var recipe5 = [
+            [0, 0, 0, 4],//灰色たっぷり
+            [0, 0, 0, 0],
+            [0, 0, 0, 0]
+        ];
+        recipe5.id = "recipe5";
+        recipe5.elem = "灰色　たっぷり";
+        recipe5.prop = "灰色っぽいポケモン";
+        var recipe6 = [
+            [0, 3, 0, 0],//青色多め
+            [4, 0, 0, 0],//やわらかいものたっぷり
+            [0, 0, 0, 0]
+        ];
+        recipe6.id = "recipe6";
+        recipe6.elem = "青色　多め<br>やわらかいもの　たっぷり";
+        recipe6.prop = "みずポケモン";
+        var recipe7 = [
+            [0, 0, 0, 2],//灰色少々
+            [0, 0, 0, 0],//
+            [0, 3, 0, 0] //あまいもの多め
+        ];
+        recipe7.id = "recipe7";
+        recipe7.elem = "灰色　少々<br>あまいもの　多め";
+        recipe7.prop = "ノーマルポケモン";
+        var recipe8 = [
+            [0, 0, 0, 0],//
+            [3, 0, 0, 0],//やわらかいもの多め
+            [4, 0, 0, 0] //きのこたっぷり
+        ];
+        recipe8.id = "recipe8";
+        recipe8.elem = "やわらかいもの　多め<br>きのこ　たっぷり";
+        recipe8.prop = "どくポケモン";
+        var recipe9 = [//やわらかいもの多め鉱物少々
+            [0, 0, 0, 0],//
+            [3, 0, 0, 0],//
+            [0, 0, 0, 2] //
+        ];
+        recipe9.id = "recipe9";
+        recipe9.elem = "やわらかいもの　多め<br>鉱物　少々";
+        recipe9.prop = "じめんポケモン";
+        var recipe10 = [//植物たっぷりやわらかいもの少々
+            [0, 0, 0, 0],//
+            [2, 0, 0, 0],//
+            [0, 0, 4, 0] //
+        ];
+        recipe10.id = "recipe10";
+        recipe10.elem = "植物　たっぷり<br>やわらかいもの　少々";
+        recipe10.prop = "くさポケモン";
+        var recipe11 = [//あまいものたっぷり黄色多め
+            [0, 0, 3, 0],//
+            [0, 0, 0, 0],//
+            [0, 4, 0, 0] //
+        ];
+        recipe11.id = "recipe11";
+        recipe11.elem = "あまいもの　たっぷり<br>黄色　多め";
+        recipe11.prop = "むしポケモン";
+        var recipe12 = [//あまいもの多め　かたいもの少々
+            [0, 0, 0, 0],//
+            [0, 2, 0, 0],//
+            [0, 3, 0, 0] //
+        ];
+        recipe12.id = "recipe12";
+        recipe12.elem = "あまいもの　多め<br>かたいもの　少々";
+        recipe12.prop = "エスパーポケモン";
+        var recipe13 = [//かたいものたっぷり鉱物少々
+            [0, 0, 0, 0],//
+            [0, 4, 0, 0],//
+            [0, 0, 0, 2] //
+        ];
+        recipe13.id = "recipe13";
+        recipe13.elem = "かたいもの　たっぷり<br>鉱物　少々";
+        recipe13.prop = "いわポケモン";
+        var recipe14 = [//鉱物多め植物少々
+            [0, 0, 0, 0],//
+            [0, 0, 0, 0],//
+            [0, 0, 2, 3] //
+        ];
+        recipe14.id = "recipe14";
+        recipe14.elem = "鉱物　多め<br>植物　少々";
+        recipe14.prop = "ひこうポケモン";
+        var recipe15 = [//きのこ多め赤色少々
+            [2, 0, 0, 0],//
+            [0, 0, 0, 0],//
+            [3, 0, 0, 0] //
+        ];
+        recipe15.id = "recipe15";
+        recipe15.elem = "きのこ　多め<br>赤色　少々";
+        recipe15.prop = "ほのおポケモン";
+        var recipe16 = [//やわらかいものたっぷり黄色多め
+            [0, 0, 3, 0],//
+            [4, 0, 0, 0],//
+            [0, 0, 0, 0] //
+        ];
+        recipe16.id = "recipe16";
+        recipe16.elem = "やわらかいもの　たっぷり<br>黄色　多め";
+        recipe16.prop = "でんきポケモン";
+        var recipe17 = [//あまいもの多めきのこ少々
+            [0, 0, 0, 0],//
+            [0, 0, 0, 0],//
+            [2, 3, 0, 0] //
+        ];
+        recipe17.id = "recipe17";
+        recipe17.elem = "あまいもの　多め<br>きのこ　少々";
+        recipe17.prop = "かくとうポケモン";
+        var recipe18 = [//
+            [0, 0, 0, 0],//
+            [0, 0, 0, 0],//
+            [5, 5, 5, 5] //
+        ];
+        recipe18.id = "recipe18";
+        recipe18.elem = "？？？";
+        recipe18.prop = "？？？ポケモン";
+
+        var recipes = [recipe1, recipe2, recipe3, recipe4, recipe5, recipe6, recipe7, recipe8, recipe9, recipe10, recipe11, recipe12, recipe13, recipe14, recipe15, recipe16, recipe17, recipe18];
+
+        function addParam(p, q) {
+            if (typeof p == "number") {
+                return p + q;
+            } else {
+                var sum = [];
+                for (const i in p) {
+                    sum.push(addParam(p[i], q[i]));
+                }
+                return sum;
+            }
+        }
+        function sumParam() {
+            var sum = dummy;
+            for (const i in arguments) {
+                sum = addParam(sum, arguments[i]);
+            }
+            return sum;
+        }
+
+        function chkParam(recipe, sumItems) {
+            var ans = true;
+            recipe.forEach(function (v, i) {
+                v.forEach(function (w, j) {
+                    ans = ans && (sumItems[i][j] >= recipe[i][j]);
+                })
+            });
+            return ans;
+        }
+
+        function myCheck() {
+            var select1 = document.getElementById("form1").items.value;
+            var elemnt1 = dummy;
+            if (select1 === "") {
+            } else {
+                elemnt1 = eval(select1);
+            }
+            var select2 = document.getElementById("form2").items.value;
+            var elemnt2 = dummy;
+            if (select2 === "") {
+            } else {
+                elemnt2 = eval(select2);
+            }
+            var select3 = document.getElementById("form3").items.value;
+            var elemnt3 = dummy;
+            if (select3 === "") {
+            } else {
+                elemnt3 = eval(select3);
+            }
+            var select4 = document.getElementById("form4").items.value;
+            var elemnt4 = dummy;
+            if (select4 === "") {
+            } else {
+                elemnt4 = eval(select4);
+            }
+            var select5 = document.getElementById("form5").items.value;
+            var elemnt5 = dummy;
+            if (select5 === "") {
+            } else {
+                elemnt5 = eval(select5);
+            }
+
+            var sumItems = sumParam(elemnt1, elemnt2, elemnt3, elemnt4, elemnt5);
+
+            var output = "";
+            recipes.forEach(function (value) {
+                var target = document.getElementById(value.id);
+                if (chkParam(value, sumItems)) {
+                    target.classList.add('able');
+                } else {
+                    target.classList.remove('able');
+                }
+            });
+        }
+        function myLoad() {
+            var output = '<div class="recipe_header"><span class="recipeid">番号</span><span class="recipeexp">レシピ</span><span class="recipepoke">ポケモン</span></div>';
+            recipes.forEach(function (value) {
+                output += '<div class="recipe" id="' + value.id + '">';
+                output += '<span class="recipeid">' + value.id + '</span>';
+                output += '<span class="recipeexp">' + value.elem + '</span>';
+                output += '<span class="recipepoke">' + value.prop + '</span>';
+                output += '</div>';
+            });
+            console.log(output);
+            var target = document.getElementById("output");
+            target.innerHTML = output;
+        }
+    </script>
+
+</head>
+
+<body onload="myLoad();">
+    <div id="header">
+        <p>ポケモンクエスト　レシピ確認</p>
+    </div>
+    <div id="item_select_area">
+        <form id="form1">
+            <fieldset>
+                <legend>1つめ</legend>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item0">
+                    <span>ちいさいキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item1">
+                    <span>ブリーのみ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item2">
+                    <span>ぼんぐり</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item3">
+                    <span>カセキ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item4">
+                    <span>にじのマテリアル</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item5">
+                    <span>おおきなねっこ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item6">
+                    <span>つめたいいわ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item7">
+                    <span>あまいミツ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item8">
+                    <span>かおるキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item9">
+                    <span>不明</span>
+                </label>
+            </fieldset>
+        </form>
+        <form id="form2">
+            <fieldset>
+                <legend>2つめ</legend>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item0">
+                    <span>ちいさいキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item1">
+                    <span>ブリーのみ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item2">
+                    <span>ぼんぐり</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item3">
+                    <span>カセキ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item4">
+                    <span>にじのマテリアル</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item5">
+                    <span>おおきなねっこ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item6">
+                    <span>つめたいいわ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item7">
+                    <span>あまいミツ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item8">
+                    <span>かおるキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item9">
+                    <span>不明</span>
+                </label>
+            </fieldset>
+        </form>
+        <form id="form3">
+            <fieldset>
+                <legend>3つめ</legend>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item0">
+                    <span>ちいさいキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item1">
+                    <span>ブリーのみ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item2">
+                    <span>ぼんぐり</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item3">
+                    <span>カセキ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item4">
+                    <span>にじのマテリアル</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item5">
+                    <span>おおきなねっこ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item6">
+                    <span>つめたいいわ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item7">
+                    <span>あまいミツ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item8">
+                    <span>かおるキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item9">
+                    <span>不明</span>
+                </label>
+            </fieldset>
+        </form>
+        <form id="form4">
+            <fieldset>
+                <legend>4つめ</legend>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item0">
+                    <span>ちいさいキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item1">
+                    <span>ブリーのみ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item2">
+                    <span>ぼんぐり</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item3">
+                    <span>カセキ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item4">
+                    <span>にじのマテリアル</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item5">
+                    <span>おおきなねっこ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item6">
+                    <span>つめたいいわ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item7">
+                    <span>あまいミツ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item8">
+                    <span>かおるキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item9">
+                    <span>不明</span>
+                </label>
+            </fieldset>
+        </form>
+        <form id="form5">
+            <fieldset>
+                <legend>5つめ</legend>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item0">
+                    <span>ちいさいキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item1">
+                    <span>ブリーのみ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item2">
+                    <span>ぼんぐり</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item3">
+                    <span>カセキ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item4">
+                    <span>にじのマテリアル</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item5">
+                    <span>おおきなねっこ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item6">
+                    <span>つめたいいわ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item7">
+                    <span>あまいミツ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item8">
+                    <span>かおるキノコ</span>
+                </label>
+                <label onclick="myCheck();">
+                    <input name="items" type="radio" value="item9">
+                    <span>不明</span>
+                </label>
+            </fieldset>
+        </form>
+    </div>
+    <div id="output"></div>
+</body>
+
+</html>
